@@ -1,15 +1,11 @@
 const  testArray = ['html', 'css', 'js', 'jquery', 'react'];
 
 const removeElement = (array, item) => {
-    const isItem = array.includes(item);
-
-    if(isItem) {
-        array.forEach((arrayItem, index) => {
-            arrayItem === item ? array.splice(index, 1) : '';
-        })
-    } else {
-        console.log(`Переданный в функцию массив не содержит элемент ${item}`);
+    if(array.includes(item)) {
+        return array.filter(arrayItem => arrayItem !== item)
     }
+
+    console.log(`Переданный в функцию массив не содержит элемент ${item}`);
 
     return array;
 }

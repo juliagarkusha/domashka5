@@ -50,9 +50,6 @@ const members = [
     },
 ];
 
-const membersPhoneArray = [];
-let balanceSum = 0;
-
 const balanceFormatToNumberHandler = (value) => {
     const clearedValue = value.substr(1).replaceAll(',', '');
     return Number((clearedValue * 100).toFixed(0));
@@ -63,10 +60,14 @@ const balanceFormatToStringHandler = (value) => {
     return `$${convertedValue.toLocaleString('en-IN')}`;
 }
 
-members.map(member => {
-    balanceFormatToNumberHandler(member.balance) / 100 > 2000 ? membersPhoneArray.push(member.phone) : '';
-    balanceSum += balanceFormatToNumberHandler(member.balance);
-})
+const results = members.reduce((acc, member) => {
+    if(balanceFormatToNumberHandler(member.balance) / 100 > 2000) {
+        acc.membersPhoneArray.push(member.phone);
+    }
 
-console.log('Массив телефонных номеров пользователей у которых баланс больше 2000 долларов:', membersPhoneArray);
-console.log('Сумма балансов всех пользователей:', balanceFormatToStringHandler(balanceSum));
+    acc.balanceSum += balanceFormatToNumberHandler(member.balance);
+    return acc;
+}, { membersPhoneArray: [], balanceSum: 0 })
+
+console.log('Массив телефонных номеров пользователей у которых баланс больше 2000 долларов:', results.membersPhoneArray);
+console.log('Сумма балансов всех пользователей:', balanceFormatToStringHandler(results.balanceSum));
